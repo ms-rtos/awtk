@@ -24,11 +24,6 @@
 #define AWTK_CONFIG_H
 
 /**
- * 是否支持双缓冲
- */
-#undef USB_DOUBLE_FB
-
-/**
  * 嵌入式系统有自己的main函数时，请定义本宏。
  *
  */

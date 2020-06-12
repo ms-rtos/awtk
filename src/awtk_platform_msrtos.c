@@ -105,6 +105,8 @@ ret_t platform_prepare(void)
         abort();
     }
 
+    ms_io_fcntl(touch_fd, F_SETFL, FNONBLOCK);
+
     return RET_OK;
 }
 
@@ -151,19 +153,19 @@ lcd_t* platform_create_lcd(wh_t w, wh_t h)
     }
 
     if (var_info.bits_per_pixel == 16) {
-#ifdef USB_DOUBLE_FB
-        lcd = lcd_mem_bgr565_create_double_fb(w, h, (uint8_t *)fix_info.smem_start,
-                (uint8_t *)fix_info.smem_start + w * h * 2);
-#else
-        lcd = lcd_mem_bgr565_create_single_fb(w, h, (uint8_t *)fix_info.smem_start);
-#endif
+        if (fix_info.capability & MS_FB_CAP_DOUBLE_FB) {
+            lcd = lcd_mem_bgr565_create_double_fb(w, h, (uint8_t *)fix_info.smem_start,
+                    (uint8_t *)fix_info.smem1_start);
+        } else {
+            lcd = lcd_mem_bgr565_create_single_fb(w, h, (uint8_t *)fix_info.smem_start);
+        }
     } else {
-#ifdef USB_DOUBLE_FB
-        lcd = lcd_mem_bgra8888_create_double_fb(w, h, (uint8_t *)fix_info.smem_start,
-                (uint8_t *)fix_info.smem_start + w * h * 4);
-#else
-        lcd = lcd_mem_bgra8888_create_single_fb(w, h, (uint8_t *)fix_info.smem_start);
-#endif
+        if (fix_info.capability & MS_FB_CAP_DOUBLE_FB) {
+            lcd = lcd_mem_bgra8888_create_double_fb(w, h, (uint8_t *)fix_info.smem_start,
+                    (uint8_t *)fix_info.smem1_start);
+        } else {
+            lcd = lcd_mem_bgra8888_create_single_fb(w, h, (uint8_t *)fix_info.smem_start);
+        }
     }
 
     return lcd;
