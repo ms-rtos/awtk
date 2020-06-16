@@ -25,7 +25,7 @@
 #include "lcd/lcd_mem_bgra8888.h"
 #include "main_loop/main_loop_simple.h"
 
-static int touch_fd;
+static int ms_awtk_touch_fd;
 
 tk_cond_var_t* tk_cond_var_create(void)
 {
@@ -99,13 +99,13 @@ void sleep_ms(uint32_t ms)
 
 ret_t platform_prepare(void)
 {
-    touch_fd = ms_io_open("/dev/touch0", O_RDONLY, 0666);
-    if (touch_fd < 0) {
+    ms_awtk_touch_fd = ms_io_open("/dev/touch0", O_RDONLY, 0666);
+    if (ms_awtk_touch_fd < 0) {
         ms_printf("Failed to open /dev/touch0 device!\n");
         abort();
     }
 
-    ms_io_fcntl(touch_fd, F_SETFL, FNONBLOCK);
+    ms_io_fcntl(ms_awtk_touch_fd, F_SETFL, FNONBLOCK);
 
     return RET_OK;
 }
@@ -116,7 +116,7 @@ uint8_t platform_disaptch_input(main_loop_t* loop)
     static int16_t last_y = 0;
     ms_touch_event_t event;
 
-    if (ms_io_read(touch_fd, &event, sizeof(event)) == sizeof(event)) {
+    if (ms_io_read(ms_awtk_touch_fd, &event, sizeof(event)) == sizeof(event)) {
         if (event.touch_detected > 0) {
             last_x = event.touch_x[0];
             last_y = event.touch_y[0];
