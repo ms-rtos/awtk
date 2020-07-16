@@ -6,7 +6,7 @@
  *
  * File: awtk_platform_msrtos.c AWTK porting.
  *
- * Author: Jiao.jinxing <jiaojixing@acoinfo.com>
+ * Author: Jiao.jinxing <jiaojinxing@acoinfo.com>
  *
  */
 
