@@ -117,7 +117,7 @@ uint8_t platform_disaptch_input(main_loop_t* loop)
     ms_touch_event_t event;
 
     if (ms_io_read(ms_awtk_touch_fd, &event, sizeof(event)) == sizeof(event)) {
-        if (event.touch_detected > 0) {
+        if ((event.touch_detected > 0) && (event.touch_event_id[0] == MS_TOUCH_EVENT_ID_PRESS_DOWN)) {
             last_x = event.touch_x[0];
             last_y = event.touch_y[0];
             main_loop_post_pointer_event(loop, TRUE, last_x, last_y);
