@@ -34,11 +34,11 @@ END_C_DECLS
 #endif /*APP_DEFAULT_FONT*/
 
 #ifndef LCD_WIDTH
-#define LCD_WIDTH 320
+#define LCD_WIDTH 480
 #endif /*LCD_WIDTH*/
 
 #ifndef LCD_HEIGHT
-#define LCD_HEIGHT 480
+#define LCD_HEIGHT 272
 #endif /*LCD_HEIGHT*/
 
 #ifndef APP_TYPE
